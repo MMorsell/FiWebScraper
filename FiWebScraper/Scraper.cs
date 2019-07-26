@@ -31,6 +31,7 @@ namespace FiWebScraper
 
 
             List<string> listOfText = outerDivText.Split('\n').ToList();
+
             listOfText.RemoveRange(0, 24);
             listOfText.RemoveRange(listOfText.Count - 1,1);
 
@@ -59,35 +60,39 @@ namespace FiWebScraper
 
             }
 
-
-
-            int counterTo10 = 0;
-
-
-            for (int i = 0; i < 9; i++)
+            //NOT DONE
+            for (int i = 0; i < listOfText.Count; i++)
             {
-                //Later Remove PublishDate and implement time as timeNow in sql if entry is not present
-                DateTime.TryParse(listOfText[0 + counterTo10], out DateTime publishDateParsed);
-                DateTime.TryParse(listOfText[8 + counterTo10], out DateTime transactionDateParsed);
-                double.TryParse(listOfText[9 + counterTo10], out double volymParsed);
-                double.TryParse(listOfText[11 + counterTo10], out double prisParsed);
-
-                _sales.Add(new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + counterTo10], Namn = listOfText[2 + counterTo10], Befattning = listOfText[3 + counterTo10], Närstående = listOfText[4 + counterTo10], Karaktär = listOfText[5 + counterTo10], Instrumentnamn = listOfText[6 + counterTo10], ISIN = listOfText[7 + counterTo10], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + counterTo10], Pris = prisParsed, Valuta = listOfText[12 + counterTo10], Handelsplats = listOfText[13 + counterTo10], Status = listOfText[14 + counterTo10], Detaljer = listOfText[15 + counterTo10], TotalPriceOfBusiness = volymParsed * prisParsed });
-                counterTo10 = counterTo10 + 16;
+               
+                    if (listOfText[i].Contains("&#246;"))
+                    {
+                        listOfText[i] = listOfText[i].Replace('"', ' ');
+                        listOfText[i] = listOfText[i].Replace('&', ' ');
+                        listOfText[i] = listOfText[i].Replace('#', ' ');
+                        listOfText[i] = listOfText[i].Replace('2', ' ');
+                        listOfText[i] = listOfText[i].Replace('4', ' ');
+                        listOfText[i] = listOfText[i].Replace('6', ' ');
+                        string result = listOfText[i];
+                        listOfText[i] = listOfText[i].Replace(';', ' ');
+                    }
             }
 
 
 
-                //if (counterTo10 == 0)
-                //{
-                //_sales.Add(new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[2 + counterTo10], Namn = listOfText[3 + counterTo10], Befattning = listOfText[4 + counterTo10], Närstående = listOfText[5 + counterTo10], Karaktär = listOfText[6 + counterTo10], Instrumentnamn = listOfText[7 + counterTo10] });
 
-                //counterTo10 = counterTo10 + 16;
-                //}
-                //else
-                //{
-                
-                //}
+            int nextPost = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                //Later Remove PublishDate and implement time as timeNow in sql if entry is not present
+                DateTime.TryParse(listOfText[0 + nextPost], out DateTime publishDateParsed);
+                DateTime.TryParse(listOfText[8 + nextPost], out DateTime transactionDateParsed);
+                double.TryParse(listOfText[9 + nextPost], out double volymParsed);
+                double.TryParse(listOfText[11 + nextPost], out double prisParsed);
+
+                _sales.Add(new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], TotalPriceOfBusiness = volymParsed * prisParsed });
+                nextPost = nextPost + 16;
+            }
+
 
 
             //Lennart Sigvard Olof Sj&#246;lund
