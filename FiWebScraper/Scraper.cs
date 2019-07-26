@@ -33,23 +33,42 @@ namespace FiWebScraper
 
 
             List<string> listItems = items1.Split('\n').ToList();
+            listItems.RemoveRange(0, 24);
+            listItems.RemoveRange(listItems.Count - 1,1);
 
             for (int i = 0; i < listItems.Count; i++)
             {
+                //Lennart Sigvard Olof Sj&#246;lund
+                //F &#246;rv&#228;rv
+                //Aff &#228;rsomr&#229;deschef
+                listItems[i] = listItems[i].Replace('"', '!');
                 listItems[i] = listItems[i].Trim();
+
+
+                
+
             }
 
-
+            List<int> positionsDescription = new List<int>();
             for (int i = 0; i < listItems.Count; i++)
             {
-                    if (listItems[i].Trim().Equals(""))
-                    {
-                        listItems.Remove(listItems[i]);
-                    }
-                
+                if (listItems[i].Equals("Detaljer"))
+                {
+                    positionsDescription.Add(i);
+                }
             }
 
-            listItems.RemoveRange(0, 15);
+
+            positionsDescription.Reverse();
+
+            foreach (var removeBlankSpaces in positionsDescription)
+            {
+                    listItems.RemoveRange(removeBlankSpaces + 1, 4);
+                    listItems.RemoveRange(removeBlankSpaces - 4, 4);
+
+            }
+
+            
             
 
             Console.ReadLine();
