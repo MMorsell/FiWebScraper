@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using System.Web;
 
 namespace FiWebScraper
 {
@@ -22,7 +23,36 @@ namespace FiWebScraper
         public void ScrapeData(string page)
         {
             var web = new HtmlWeb();
-            web.
+            var doc = web.Load(page);
+
+
+
+            var sales = doc.DocumentNode.SelectSingleNode("//*[@class = 'table table-bordered table-hover table-striped zero-margin-top']");
+
+            var items1 = sales.InnerText;
+
+
+            List<string> listItems = items1.Split('\n').ToList();
+
+            for (int i = 0; i < listItems.Count; i++)
+            {
+                listItems[i] = listItems[i].Trim();
+            }
+
+
+            for (int i = 0; i < listItems.Count; i++)
+            {
+                    if (listItems[i].Trim().Equals(""))
+                    {
+                        listItems.Remove(listItems[i]);
+                    }
+                
+            }
+
+            listItems.RemoveRange(0, 15);
+            
+
+            Console.ReadLine();
         }
 
     }

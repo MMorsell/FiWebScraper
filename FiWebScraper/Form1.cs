@@ -22,7 +22,14 @@ namespace FiWebScraper
 
         private void Button1_Click(object sender, EventArgs e)
         {
+            scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
 
+            dataGridView1.DataSource = scraper.Sales;
+        }
+
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
         }
     }
 }
