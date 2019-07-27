@@ -141,6 +141,8 @@ namespace FiWebScraper
                     }
                 }
 
+
+                //if it doesnt exist, add it to the main interface
                 if (!recordExist && !secondPurchase && !alreadyAddedinList)
                 {
                     _sales.Insert(0, sale);
