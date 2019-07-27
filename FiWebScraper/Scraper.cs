@@ -11,6 +11,9 @@ namespace FiWebScraper
 {
     public class Scraper
     {
+
+        int firstDownload = 0;
+
         private ObservableCollection<Sale> _sales = new ObservableCollection<Sale>();
 
         public ObservableCollection<Sale> Sales
@@ -36,20 +39,16 @@ namespace FiWebScraper
             int nextPost = 0;
             for (int i = 0; i < 10; i++)
             {
-                //
-                //Later Remove PublishDate and implement time as timeNow in sql if entry is not present
-                //
-                //
-
-
                 //Creates a new sale
-                DateTime.TryParse(listOfText[0 + nextPost], out DateTime publishDateParsed);
-                var timeNow = DateTime.Now.ToString("h:mm:ss");
-                DateTime.TryParse(listOfText[8 + nextPost], out DateTime transactionDateParsed);
-                double.TryParse(listOfText[9 + nextPost], out double volymParsed);
-                double.TryParse(listOfText[11 + nextPost], out double prisParsed);
+                    DateTime.TryParse(listOfText[0 + nextPost], out DateTime publishDateParsed);
+                    var timeNow = DateTime.Now.ToString("h:mm:ss");
+                    DateTime.TryParse(listOfText[8 + nextPost], out DateTime transactionDateParsed);
+                    double.TryParse(listOfText[9 + nextPost], out double volymParsed);
+                    double.TryParse(listOfText[11 + nextPost], out double prisParsed);
 
-                var sale = new Sale { Publiceringsdatum = publishDateParsed, Tid = timeNow, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
+                    var sale = new Sale { Publiceringsdatum = publishDateParsed, Tid = timeNow, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
+
+                
 
 
 
@@ -73,8 +72,15 @@ namespace FiWebScraper
                 //if (!recordExistInSaleList && !isSecondPurchaseOfSameStock && !entryAlreadyExistsInAddedList)
                 if (!recordExistInSaleList && sale.Publiceringsdatum == DateTime.Today)
                 {
-                    Sales.Insert(0, sale);
-                    //AddedSales.Add(sale);
+                    if (firstDownload == 0)
+                    {
+                        Sales.Insert(Sales.Count, sale);
+                    }
+                    else
+                    {
+                        Sales.Insert(0, sale);
+                        //AddedSales.Add(sale);
+                    }
                 }
 
 
@@ -121,7 +127,6 @@ namespace FiWebScraper
                 listOfText.RemoveRange(intPosition - 4, 4);
 
             }
-
             //NOT DONE NEED TO FIX SWEDISH CHARSET
             //NEED TO FIX FIRST 10 ITEMS TO BE ADDED AS USUAL; NOT INSERTED
             //for (int i = 0; i < listOfText.Count; i++)
