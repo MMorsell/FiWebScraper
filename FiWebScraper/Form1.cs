@@ -9,19 +9,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
+
 namespace FiWebScraper
 {
     public partial class Form1 : Form
     {
         Scraper scraper;
+        Notice notice;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
-        public int maxValueBeforeAResponse { get; set; } = 300000;  
+        public int maxValueBeforeAResponse { get; set; } = 100000;  
 
         public Form1()
         {
             InitializeComponent();
             scraper = new Scraper();
+            notice = new Notice();
             Text = "Insynshandelsavläsare";
 
         }
@@ -56,7 +59,9 @@ namespace FiWebScraper
                 //Updates the data
                 source.ResetBindings(false);
 
-                    if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
+                CheckIfNotice();
+
+                if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
                     { 
                     source.SuspendBinding();
                         HideSaleColumns();
@@ -70,6 +75,21 @@ namespace FiWebScraper
             }
 
         }
+
+        private void CheckIfNotice()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                double.TryParse(dataGridView1.Rows[i].Cells[13].Value.ToString(), out double totalt);
+
+                if (totalt > maxValueBeforeAResponse)
+                {
+                    notice.ShowPopup($"Ny Affär", $"{dataGridView1.Rows[i].Cells[2].Value} Gjorde ett köp över {maxValueBeforeAResponse}");
+                }
+            }
+
+        }
+     
 
         private void HideSaleColumns()
         {

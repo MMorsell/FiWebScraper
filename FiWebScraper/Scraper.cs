@@ -59,21 +59,21 @@ namespace FiWebScraper
                 //checks if record already exists with person and total cost
                 bool recordExistInSaleList = EntryAlreadyExistsInSaleList(sale);
 
-                //Checks if entry is already combined to one row
-                bool  entryAlreadyExistsInAddedList = EntryAlreadyExistsInAlreadyAddedList(sale);
+                ////Checks if entry is already combined to one row
+                //bool  entryAlreadyExistsInAddedList = EntryAlreadyExistsInAlreadyAddedList(sale);
 
 
-                //checks if person has bought many and combines the ammount to one row. statusrow updates with number of sales, total volume and total cost is correct
-                bool isSecondPurchaseOfSameStock = EntryHasBeenAddedToOneRow(sale, recordExistInSaleList, entryAlreadyExistsInAddedList);
-               
+                ////checks if person has bought many and combines the ammount to one row. statusrow updates with number of sales, total volume and total cost is correct
+                //bool isSecondPurchaseOfSameStock = EntryHasBeenAddedToOneRow(sale, recordExistInSaleList, entryAlreadyExistsInAddedList);
+
 
 
                 //if it doesnt exist, add it to the main interface
-                //if (!recordExist && !secondPurchase && !alreadyAddedinList)
-                if (!recordExistInSaleList && !isSecondPurchaseOfSameStock && !entryAlreadyExistsInAddedList)
+                //if (!recordExistInSaleList && !isSecondPurchaseOfSameStock && !entryAlreadyExistsInAddedList)
+                if (!recordExistInSaleList)
                 {
                     Sales.Insert(0, sale);
-                    AddedSales.Add(sale);
+                    //AddedSales.Add(sale);
                 }
 
 
@@ -156,6 +156,13 @@ namespace FiWebScraper
                     {
                         AddedSales.Add(sale);
                         var newRecord = record;
+                        var totalt = sale.Totalt;
+                        var pris = sale.Pris;
+                        var volym = sale.Volym;
+                        newRecord.Totalt = totalt;
+                        newRecord.Pris = pris;
+                        newRecord.Volym = volym;
+
                         AddedSales.Add(newRecord);
 
 
@@ -169,7 +176,7 @@ namespace FiWebScraper
 
 
                         //record.Totalt = record.Totalt + sale.Totalt;
-                        record.Volym = record.Volym + sale.Volym + 100;
+                        record.Volym = record.Volym + sale.Volym;
                         result = true;
 
                     }
