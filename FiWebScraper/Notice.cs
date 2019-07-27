@@ -22,7 +22,6 @@ namespace FiWebScraper
 
         public void ShowPopup(string title, string message)
         {
-            
 
         }
     }

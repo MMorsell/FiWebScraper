@@ -84,7 +84,13 @@ namespace FiWebScraper
 
                 if (totalt > maxValueBeforeAResponse)
                 {
-                    notice.ShowPopup($"Ny Affär", $"{dataGridView1.Rows[i].Cells[2].Value} Gjorde ett köp över {maxValueBeforeAResponse}");
+
+                   
+
+
+                    notifyIcon1.BalloonTipTitle = $"Ny Affär!";
+                    notifyIcon1.BalloonTipText = $"{dataGridView1.Rows[i].Cells[2].Value} Gjorde ett köp över {maxValueBeforeAResponse}";
+                    notifyIcon1.ShowBalloonTip(1000);
                 }
             }
 
