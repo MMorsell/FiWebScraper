@@ -50,8 +50,8 @@ namespace FiWebScraper
             while (textData%2 != 0)
             {
 
-                //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
-                scraper.ScrapeData(@"http://localhost/dashboard/");
+                scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
+                //scraper.ScrapeData(@"http://localhost/dashboard/");
 
                 //Updates the data
                 source.ResetBindings(false);
