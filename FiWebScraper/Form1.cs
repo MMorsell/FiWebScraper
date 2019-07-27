@@ -16,7 +16,7 @@ namespace FiWebScraper
         Scraper scraper;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
-        public int valueToSendRespond { get; set; } = 300000;
+        public int maxValueBeforeAResponse { get; set; } = 300000;
 
         public Form1()
         {
@@ -45,6 +45,7 @@ namespace FiWebScraper
             BindingSource source = new BindingSource();
             source.DataSource = scraper.Sales;
             dataGridView1.DataSource = source;
+            dataGridView1.Columns[13].DefaultCellStyle.Format = $"{0:N}";
 
             while (textData%2 != 0)
             {
@@ -118,7 +119,7 @@ namespace FiWebScraper
             {
                 double.TryParse(dataGridView1.Rows[i].Cells[13].Value.ToString(), out double totalt);
 
-                if (totalt > valueToSendRespond)
+                if (totalt > maxValueBeforeAResponse)
                 {
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                     dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.White;
@@ -144,7 +145,7 @@ namespace FiWebScraper
         private void NumericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             int.TryParse(numericUpDown2.Value.ToString(), out int input);
-            valueToSendRespond = input;
+            maxValueBeforeAResponse = input;
             UpdateCellColors();
         }
 
