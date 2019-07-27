@@ -72,7 +72,7 @@ namespace FiWebScraper
                         listOfText[i] = listOfText[i].Replace('2', ' ');
                         listOfText[i] = listOfText[i].Replace('4', ' ');
                         listOfText[i] = listOfText[i].Replace('6', ' ');
-                        string result = listOfText[i];
+                        string result = listOfText[i].Trim();
                         listOfText[i] = listOfText[i].Replace(';', ' ');
                     }
             }
@@ -89,8 +89,26 @@ namespace FiWebScraper
                 double.TryParse(listOfText[9 + nextPost], out double volymParsed);
                 double.TryParse(listOfText[11 + nextPost], out double prisParsed);
 
-                _sales.Add(new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], TotalPriceOfBusiness = volymParsed * prisParsed });
-                nextPost = nextPost + 16;
+                var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], TotalPriceOfBusiness = volymParsed * prisParsed };
+
+                //checks if record already exists with person and total cost
+                bool recordExist = false;
+                foreach (var record in _sales)
+                {
+                    if (sale.TotalPriceOfBusiness == record.TotalPriceOfBusiness && sale.Namn == record.Namn)
+                    {
+                        recordExist = true;
+                    }
+                }
+
+
+                if (!recordExist)
+                {
+                    _sales.Insert(0, sale);
+                }
+
+
+            nextPost = nextPost + 16;
             }
 
 
@@ -98,7 +116,6 @@ namespace FiWebScraper
             //Lennart Sigvard Olof Sj&#246;lund
             //F &#246;rv&#228;rv
             //Aff &#228;rsomr&#229;deschef
-            Console.ReadLine();
         }
 
     }
