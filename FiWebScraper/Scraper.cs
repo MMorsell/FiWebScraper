@@ -51,6 +51,11 @@ namespace FiWebScraper
                 var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
 
 
+
+
+
+
+
                 //checks if record already exists with person and total cost
                 bool recordExistInSaleList = EntryAlreadyExistsInSaleList(sale);
 
@@ -150,7 +155,8 @@ namespace FiWebScraper
                     if (sale.Utgivare == record.Utgivare && sale.Namn == record.Namn && sale.Befattning == record.Befattning && sale.Karaktär == record.Karaktär && sale.Instrumentnamn == record.Instrumentnamn)
                     {
                         AddedSales.Add(sale);
-                        AddedSales.Add(record);
+                        var newRecord = record;
+                        AddedSales.Add(newRecord);
 
 
 
@@ -162,14 +168,9 @@ namespace FiWebScraper
                         //record.Status = salestatus.ToString();
 
 
-
-                        double extravalue = sale.Pris * sale.Volym;
-
-
-                        record.Totalt = record.Totalt + extravalue;
-                        record.Volym = record.Volym + sale.Volym;
+                        //record.Totalt = record.Totalt + sale.Totalt;
+                        record.Volym = record.Volym + sale.Volym + 100;
                         result = true;
-                        AddedSales.Add(record);
 
                     }
                 }
@@ -193,15 +194,32 @@ namespace FiWebScraper
 
         private bool EntryAlreadyExistsInAlreadyAddedList(Sale newEntry)
         {
+            
             bool result = false;
 
             foreach (var entry in AddedSales)
             {
+                
                 if (newEntry.Utgivare == entry.Utgivare && newEntry.Namn == entry.Namn && newEntry.Befattning == entry.Befattning && newEntry.Karaktär == entry.Karaktär && newEntry.Instrumentnamn == entry.Instrumentnamn && newEntry.Pris == entry.Pris && newEntry.Volym == entry.Volym && newEntry.Totalt == entry.Totalt)
                 {
                     result = true;
                 }
+
+
+
+                //if (!result && newEntry.Namn == "Per Wallentin")
+                //{
+                //    Console.WriteLine();
+
+                //    if (newEntry.Utgivare == entry.Utgivare && newEntry.Namn == entry.Namn && newEntry.Befattning == entry.Befattning && newEntry.Karaktär == entry.Karaktär && newEntry.Instrumentnamn == entry.Instrumentnamn && newEntry.Pris == entry.Pris && newEntry.Volym == entry.Volym && newEntry.Totalt == entry.Totalt)
+                //    {
+                //        result = true;
+                //    }
+                //}
             }
+
+
+            
 
             return result;
         }

@@ -16,7 +16,7 @@ namespace FiWebScraper
         Scraper scraper;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
-        public int maxValueBeforeAResponse { get; set; } = 300000;
+        public int maxValueBeforeAResponse { get; set; } = 300000;  
 
         public Form1()
         {
