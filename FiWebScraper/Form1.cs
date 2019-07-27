@@ -53,17 +53,18 @@ namespace FiWebScraper
                 //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
                 scraper.ScrapeData(@"http://localhost/dashboard/");
 
+                //Updates the data
                 source.ResetBindings(false);
 
-                if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
-                { 
-                source.SuspendBinding();
+                    if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
+                    { 
+                    source.SuspendBinding();
+                        HideSaleColumns();
+                    source.ResumeBinding();
+                    }
 
-                    HideSaleColumns();
-                    
-                source.ResumeBinding();
-                }
 
+                //Delay until next update
                 int.TryParse(secondsDelay.ToString(), out int timeout);
                 await Task.Delay(timeout);
             }

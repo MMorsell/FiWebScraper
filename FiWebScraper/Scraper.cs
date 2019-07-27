@@ -20,6 +20,15 @@ namespace FiWebScraper
         }
 
 
+        private ObservableCollection<Sale> _addedSales = new ObservableCollection<Sale>();
+
+        public ObservableCollection<Sale> AddedSales
+        {
+            get { return _sales; }
+            set { _sales = value; }
+        }
+
+
         public void ScrapeData(string page)
         {
             var webInterface = new HtmlWeb();
@@ -101,8 +110,38 @@ namespace FiWebScraper
                     }
                 }
 
+                //checks if person has bought many and combines the ammount to one row. statusrow updates with number of sales, total volume and total cost is correct
+                bool secondPurchase = false;
+                bool alreadyAddedinList = false;
+                foreach (var alreadyAdded in _addedSales)
+                {
+                    if (sale.Utgivare == alreadyAdded.Utgivare && sale.Namn == alreadyAdded.Namn && sale.Befattning == alreadyAdded.Befattning && sale.Karaktär == alreadyAdded.Karaktär && sale.Instrumentnamn == alreadyAdded.Instrumentnamn && sale.Pris == alreadyAdded.Pris && sale.Volym == alreadyAdded.Volym && sale.Totalt == alreadyAdded.Totalt)
+                    {
+                        alreadyAddedinList = true;
+                    }
+                }
 
-                if (!recordExist)
+                if (!recordExist && !alreadyAddedinList)
+                {
+                    foreach (var record in _sales)
+                    {
+                        if (sale.Utgivare == record.Utgivare && sale.Namn == record.Namn && sale.Befattning == record.Befattning && sale.Karaktär == record.Karaktär && sale.Instrumentnamn == record.Instrumentnamn)
+                        {
+                            int.TryParse(sale.Status.ToString(), out int saleStatus);
+
+                            record.Status = saleStatus++.ToString();
+                            double extraValue = sale.Pris * sale.Volym;
+
+
+                            record.Totalt = record.Totalt + extraValue;
+                            record.Volym = record.Volym + sale.Volym;
+                            secondPurchase = true;
+                            _addedSales.Add(sale);
+                        }
+                    }
+                }
+
+                if (!recordExist && !secondPurchase && !alreadyAddedinList)
                 {
                     _sales.Insert(0, sale);
                 }

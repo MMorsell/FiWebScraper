@@ -23,7 +23,7 @@ namespace FiWebScraper
         public string Valuta { get; set; }
         public double Totalt { get; set; }
         public string Handelsplats { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = "0";
         public string Detaljer { get; set; }
     }
 }
