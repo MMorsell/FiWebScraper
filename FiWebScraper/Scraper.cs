@@ -34,7 +34,7 @@ namespace FiWebScraper
             List<string> listOfText = DownloadNewVersion(page);
 
             int nextPost = 0;
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 10; i++)
             {
                 //
                 //Later Remove PublishDate and implement time as timeNow in sql if entry is not present
@@ -44,11 +44,12 @@ namespace FiWebScraper
 
                 //Creates a new sale
                 DateTime.TryParse(listOfText[0 + nextPost], out DateTime publishDateParsed);
+                var timeNow = DateTime.Now.ToString("h:mm:ss");
                 DateTime.TryParse(listOfText[8 + nextPost], out DateTime transactionDateParsed);
                 double.TryParse(listOfText[9 + nextPost], out double volymParsed);
                 double.TryParse(listOfText[11 + nextPost], out double prisParsed);
 
-                var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
+                var sale = new Sale { Publiceringsdatum = publishDateParsed, Tid = timeNow, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
 
 
 
@@ -123,21 +124,21 @@ namespace FiWebScraper
 
             //NOT DONE NEED TO FIX SWEDISH CHARSET
             //NEED TO FIX FIRST 10 ITEMS TO BE ADDED AS USUAL; NOT INSERTED
-            for (int i = 0; i < listOfText.Count; i++)
-            {
+            //for (int i = 0; i < listOfText.Count; i++)
+            //{
 
-                if (listOfText[i].Contains("&#246;"))
-                {
-                    listOfText[i] = listOfText[i].Replace('"', ' ');
-                    listOfText[i] = listOfText[i].Replace('&', ' ');
-                    listOfText[i] = listOfText[i].Replace('#', ' ');
-                    listOfText[i] = listOfText[i].Replace('2', ' ');
-                    listOfText[i] = listOfText[i].Replace('4', ' ');
-                    listOfText[i] = listOfText[i].Replace('6', ' ');
-                    string result = listOfText[i].Trim();
-                    listOfText[i] = listOfText[i].Replace(';', ' ');
-                }
-            }
+            //    if (listOfText[i].Contains("&#246;"))
+            //    {
+            //        listOfText[i] = listOfText[i].Replace('"', ' ');
+            //        listOfText[i] = listOfText[i].Replace('&', ' ');
+            //        listOfText[i] = listOfText[i].Replace('#', ' ');
+            //        listOfText[i] = listOfText[i].Replace('2', ' ');
+            //        listOfText[i] = listOfText[i].Replace('4', ' ');
+            //        listOfText[i] = listOfText[i].Replace('6', ' ');
+            //        string result = listOfText[i].Trim();
+            //        listOfText[i] = listOfText[i].Replace(';', ' ');
+            //    }
+            //}
 
             return listOfText;
         }
@@ -189,13 +190,22 @@ namespace FiWebScraper
         private bool EntryAlreadyExistsInSaleList(Sale sale)
         {
             bool result = false;
-            foreach (var record in Sales)
+
+
+            if (Sales.)
             {
-                if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
-                {
-                    result = true;
-                }
+                result = true;
             }
+
+
+
+            //foreach (var record in Sales)
+            //{
+            //    if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
+            //    {
+            //        result = true;
+            //    }
+            //}
             return result;
         }
 

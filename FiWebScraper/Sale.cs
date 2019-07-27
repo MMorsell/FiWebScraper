@@ -9,6 +9,7 @@ namespace FiWebScraper
     public class Sale
     {
         public DateTime Publiceringsdatum { get; set; }
+        public string Tid { get; set; }
         public string Utgivare { get; set; }
         public string Namn { get; set; }
         public string Befattning { get; set; }

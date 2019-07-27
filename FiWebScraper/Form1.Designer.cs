@@ -117,7 +117,9 @@
             // 
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Items.AddRange(new object[] {
-            "Visa endast köp"});
+            "Visa endast köp",
+            "Ta bort blabla",
+            "Ta bort Blö"});
             this.checkedListBox1.Location = new System.Drawing.Point(3, 227);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(120, 214);
@@ -136,7 +138,7 @@
             this.numericUpDown2.Size = new System.Drawing.Size(67, 20);
             this.numericUpDown2.TabIndex = 6;
             this.numericUpDown2.Value = new decimal(new int[] {
-            100000,
+            300000,
             0,
             0,
             0});

@@ -18,7 +18,7 @@ namespace FiWebScraper
         Notice notice;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
-        public int maxValueBeforeAResponse { get; set; } = 100000;  
+        public int maxValueBeforeAResponse { get; set; } = 300000;  
 
         public Form1()
         {
@@ -44,12 +44,14 @@ namespace FiWebScraper
                 button1.Text = "Start";
             }
             
-
+            //Settings for the datagrid
             BindingSource source = new BindingSource();
             source.DataSource = scraper.Sales;
             dataGridView1.DataSource = source;
             dataGridView1.Columns[13].DefaultCellStyle.Format = $"{0:N}";
 
+
+            //Primary loop
             while (textData%2 != 0)
             {
 
@@ -63,9 +65,9 @@ namespace FiWebScraper
 
                 if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
                     { 
-                    source.SuspendBinding();
+                        source.SuspendBinding();
                         HideSaleColumns();
-                    source.ResumeBinding();
+                        source.ResumeBinding();
                     }
 
 
@@ -84,13 +86,7 @@ namespace FiWebScraper
 
                 if (totalt > maxValueBeforeAResponse)
                 {
-
-                   
-
-
-                    notifyIcon1.BalloonTipTitle = $"Ny Affär!";
-                    notifyIcon1.BalloonTipText = $"{dataGridView1.Rows[i].Cells[2].Value} Gjorde ett köp över {maxValueBeforeAResponse}";
-                    notifyIcon1.ShowBalloonTip(1000);
+                    //Add notification here
                 }
             }
 
