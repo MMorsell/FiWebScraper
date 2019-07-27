@@ -52,15 +52,32 @@ namespace FiWebScraper
                 //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
                 scraper.ScrapeData(@"http://localhost/dashboard/");
 
-
                 source.ResetBindings(false);
+
+                if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
+                { 
+                source.SuspendBinding();
+
+                    HideSaleColumns();
+                    
+                source.ResumeBinding();
+                }
+
                 int.TryParse(secondsDelay.ToString(), out int timeout);
                 await Task.Delay(timeout);
-
-
-
             }
 
+        }
+
+        private void HideSaleColumns()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[5].Value.ToString().Equals("Avyttring"))
+                {
+                    dataGridView1.Rows[i].Visible = false;
+                }
+            }
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -129,6 +146,10 @@ namespace FiWebScraper
             int.TryParse(numericUpDown2.Value.ToString(), out int input);
             valueToSendRespond = input;
             UpdateCellColors();
+        }
+
+        private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
         }
     }
 }
