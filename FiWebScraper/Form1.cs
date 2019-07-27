@@ -16,6 +16,7 @@ namespace FiWebScraper
     {
         Scraper scraper;
         static int textData = 0;
+        BindingSource source;
         public decimal secondsDelay { get; set; } = 5000;
         public int maxValueBeforeAResponse { get; set; } = 300000;
         public List<string> listOfAlertMessagesSent { get; set; }
@@ -45,7 +46,7 @@ namespace FiWebScraper
             }
             
             //Settings for the datagrid
-            BindingSource source = new BindingSource();
+            source = new BindingSource();
             source.DataSource = scraper.Sales;
             dataGridView1.DataSource = source;
             dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
@@ -62,20 +63,31 @@ namespace FiWebScraper
                 source.ResetBindings(false);
 
                 CheckIfNotice();
-
-                if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
-                    { 
-                        source.SuspendBinding();
-                        HideSaleColumns();
-                        source.ResumeBinding();
-                    }
-
+                CheckIfHideRows();
 
                 //Delay until next update
                 int.TryParse(secondsDelay.ToString(), out int timeout);
                 await Task.Delay(timeout);
             }
 
+        }
+
+        private void CheckIfHideRows()
+        {
+            if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
+            {
+                source.SuspendBinding();
+                HideSaleColumns();
+                source.ResumeBinding();
+            }
+
+
+            if (checkedListBox1.GetItemCheckState(2) == CheckState.Checked)
+            {
+                source.SuspendBinding();
+                HideUHandelsplatsColumns();
+                source.ResumeBinding();
+            }
         }
 
         private void CheckIfNotice()
@@ -96,10 +108,26 @@ namespace FiWebScraper
 
                     bool alreadySentAlert = CheckIfMessageIsAlreadySent($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
 
-                    if (!alreadySentAlert)
+                    if (!alreadySentAlert && checkedListBox1.GetItemCheckState(4) != CheckState.Checked)
                     {
-                        notifyIcon.ShowBalloonTip(30000);
-                        listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+
+                        if (checkedListBox1.GetItemCheckState(1) == CheckState.Checked)
+                        {
+                            if (dataGridView1.Rows[i].Cells[6].Value.ToString() == "Förvärv")
+                            {
+                                notifyIcon.ShowBalloonTip(30000);
+                                listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                            }
+
+                        }
+                        else
+                        {
+                            notifyIcon.ShowBalloonTip(30000);
+                            listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                        }
+
+
+
                     }
 
                     notifyIcon.Dispose();
@@ -127,6 +155,17 @@ namespace FiWebScraper
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
                 if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
+                {
+                    dataGridView1.Rows[i].Visible = false;
+                }
+            }
+        }
+
+        private void HideUHandelsplatsColumns()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
                 {
                     dataGridView1.Rows[i].Visible = false;
                 }
@@ -203,6 +242,10 @@ namespace FiWebScraper
         }
 
         private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
         }
     }
