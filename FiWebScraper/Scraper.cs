@@ -71,7 +71,7 @@ namespace FiWebScraper
 
                 //if it doesnt exist, add it to the main interface
                 //if (!recordExistInSaleList && !isSecondPurchaseOfSameStock && !entryAlreadyExistsInAddedList)
-                if (!recordExistInSaleList)
+                if (!recordExistInSaleList && sale.Publiceringsdatum == DateTime.Today)
                 {
                     Sales.Insert(0, sale);
                     //AddedSales.Add(sale);
@@ -190,22 +190,13 @@ namespace FiWebScraper
         private bool EntryAlreadyExistsInSaleList(Sale sale)
         {
             bool result = false;
-
-
-            if (Sales.)
+            foreach (var record in Sales)
             {
-                result = true;
+                if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
+                {
+                    result = true;
+                }
             }
-
-
-
-            //foreach (var record in Sales)
-            //{
-            //    if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
-            //    {
-            //        result = true;
-            //    }
-            //}
             return result;
         }
 

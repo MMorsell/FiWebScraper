@@ -15,7 +15,6 @@ namespace FiWebScraper
     public partial class Form1 : Form
     {
         Scraper scraper;
-        Notice notice;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
         public int maxValueBeforeAResponse { get; set; } = 300000;  
@@ -24,7 +23,6 @@ namespace FiWebScraper
         {
             InitializeComponent();
             scraper = new Scraper();
-            notice = new Notice();
             Text = "Insynshandelsavläsare";
 
         }
@@ -48,7 +46,7 @@ namespace FiWebScraper
             BindingSource source = new BindingSource();
             source.DataSource = scraper.Sales;
             dataGridView1.DataSource = source;
-            dataGridView1.Columns[13].DefaultCellStyle.Format = $"{0:N}";
+            dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
 
 
             //Primary loop
@@ -82,7 +80,7 @@ namespace FiWebScraper
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                double.TryParse(dataGridView1.Rows[i].Cells[13].Value.ToString(), out double totalt);
+                double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
 
                 if (totalt > maxValueBeforeAResponse)
                 {
@@ -97,7 +95,7 @@ namespace FiWebScraper
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[5].Value.ToString().Equals("Avyttring"))
+                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
                 {
                     dataGridView1.Rows[i].Visible = false;
                 }
@@ -140,7 +138,7 @@ namespace FiWebScraper
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                double.TryParse(dataGridView1.Rows[i].Cells[13].Value.ToString(), out double totalt);
+                double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
 
                 if (totalt > maxValueBeforeAResponse)
                 {

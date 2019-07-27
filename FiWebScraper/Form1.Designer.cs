@@ -76,7 +76,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(81, 139);
+            this.numericUpDown1.Location = new System.Drawing.Point(84, 104);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(45, 20);
             this.numericUpDown1.TabIndex = 2;
@@ -90,10 +90,12 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(0, 139);
+            this.textBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(3, 106);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(86, 20);
+            this.textBox1.Size = new System.Drawing.Size(80, 13);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "Delay i sekunder";
             this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged_1);
@@ -115,20 +117,23 @@
             // 
             // checkedListBox1
             // 
+            this.checkedListBox1.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Items.AddRange(new object[] {
             "Visa endast köp",
-            "Ta bort blabla",
-            "Ta bort Blö"});
+            "Varna endast Köp",
+            "Ta bort blö"});
             this.checkedListBox1.Location = new System.Drawing.Point(3, 227);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(120, 214);
+            this.checkedListBox1.Size = new System.Drawing.Size(120, 212);
             this.checkedListBox1.TabIndex = 7;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.CheckedListBox1_SelectedIndexChanged);
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(29, 201);
+            this.numericUpDown2.Location = new System.Drawing.Point(28, 149);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -146,10 +151,12 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(10, 175);
+            this.textBox2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Location = new System.Drawing.Point(10, 130);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(109, 20);
+            this.textBox2.Size = new System.Drawing.Size(109, 13);
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = "Varnar vid värde över";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
