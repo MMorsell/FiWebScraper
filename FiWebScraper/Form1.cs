@@ -17,13 +17,15 @@ namespace FiWebScraper
         Scraper scraper;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
-        public int maxValueBeforeAResponse { get; set; } = 300000;  
+        public int maxValueBeforeAResponse { get; set; } = 300000;
+        public List<string> listOfAlertMessagesSent { get; set; }
 
         public Form1()
         {
             InitializeComponent();
             scraper = new Scraper();
             Text = "Insynshandelsavläsare";
+            listOfAlertMessagesSent = new List<string>();
 
         }
 
@@ -85,11 +87,40 @@ namespace FiWebScraper
                 if (totalt > maxValueBeforeAResponse)
                 {
                     //Add notification here
+                    NotifyIcon notifyIcon = new NotifyIcon();
+                    notifyIcon.Visible = true;
+                    notifyIcon.BalloonTipTitle = $"Ny Affär av {dataGridView1.Rows[i].Cells[3].Value}";
+                    notifyIcon.BalloonTipText = $"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}";
+                    notifyIcon.Icon = SystemIcons.Application;
+
+
+                    bool alreadySentAlert = CheckIfMessageIsAlreadySent($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+
+                    if (!alreadySentAlert)
+                    {
+                        notifyIcon.ShowBalloonTip(30000);
+                        listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                    }
+
+                    notifyIcon.Dispose();
                 }
             }
 
         }
-     
+
+        private bool CheckIfMessageIsAlreadySent(string v)
+        {
+            bool result = false;
+            foreach (var message in listOfAlertMessagesSent)
+            {
+                if (message == v)
+                {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
 
         private void HideSaleColumns()
         {
@@ -168,6 +199,7 @@ namespace FiWebScraper
             int.TryParse(numericUpDown2.Value.ToString(), out int input);
             maxValueBeforeAResponse = input;
             UpdateCellColors();
+            CheckIfNotice();
         }
 
         private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
