@@ -24,18 +24,14 @@ namespace FiWebScraper
 
         public ObservableCollection<Sale> AddedSales
         {
-            get { return _sales; }
-            set { _sales = value; }
+            get { return _addedSales; }
+            set { _addedSales = value; }
         }
 
         public void ScrapeData(string page)
         {
 
             List<string> listOfText = DownloadNewVersion(page);
-
-
-
-
 
             int nextPost = 0;
             for (int i = 0; i < 9; i++)
@@ -55,22 +51,14 @@ namespace FiWebScraper
                 var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
 
 
-
                 //checks if record already exists with person and total cost
                 bool recordExistInSaleList = EntryAlreadyExistsInSaleList(sale);
-
-
-
-
 
                 //Checks if entry is already combined to one row
                 bool  entryAlreadyExistsInAddedList = EntryAlreadyExistsInAlreadyAddedList(sale);
 
 
-
-
                 //checks if person has bought many and combines the ammount to one row. statusrow updates with number of sales, total volume and total cost is correct
-
                 bool isSecondPurchaseOfSameStock = EntryHasBeenAddedToOneRow(sale, recordExistInSaleList, entryAlreadyExistsInAddedList);
                
 
@@ -79,8 +67,8 @@ namespace FiWebScraper
                 //if (!recordExist && !secondPurchase && !alreadyAddedinList)
                 if (!recordExistInSaleList && !isSecondPurchaseOfSameStock && !entryAlreadyExistsInAddedList)
                 {
-                    _sales.Insert(0, sale);
-                    _addedSales.Add(sale);
+                    Sales.Insert(0, sale);
+                    AddedSales.Add(sale);
                 }
 
 
@@ -157,12 +145,12 @@ namespace FiWebScraper
 
             if (!recordExistInSaleList && !entryAlreadyExistsInAddedList)
             {
-                foreach (var record in _sales)
+                foreach (var record in Sales)
                 {
                     if (sale.Utgivare == record.Utgivare && sale.Namn == record.Namn && sale.Befattning == record.Befattning && sale.Karaktär == record.Karaktär && sale.Instrumentnamn == record.Instrumentnamn)
                     {
-                        _addedSales.Add(sale);
-                        _addedSales.Add(record);
+                        AddedSales.Add(sale);
+                        AddedSales.Add(record);
 
 
 
@@ -174,13 +162,14 @@ namespace FiWebScraper
                         //record.Status = salestatus.ToString();
 
 
+
                         double extravalue = sale.Pris * sale.Volym;
 
 
                         record.Totalt = record.Totalt + extravalue;
                         record.Volym = record.Volym + sale.Volym;
                         result = true;
-                        _addedSales.Add(record);
+                        AddedSales.Add(record);
 
                     }
                 }
@@ -192,7 +181,7 @@ namespace FiWebScraper
         private bool EntryAlreadyExistsInSaleList(Sale sale)
         {
             bool result = false;
-            foreach (var record in _sales)
+            foreach (var record in Sales)
             {
                 if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
                 {
@@ -206,7 +195,7 @@ namespace FiWebScraper
         {
             bool result = false;
 
-            foreach (var entry in _addedSales)
+            foreach (var entry in AddedSales)
             {
                 if (newEntry.Utgivare == entry.Utgivare && newEntry.Namn == entry.Namn && newEntry.Befattning == entry.Befattning && newEntry.Karaktär == entry.Karaktär && newEntry.Instrumentnamn == entry.Instrumentnamn && newEntry.Pris == entry.Pris && newEntry.Volym == entry.Volym && newEntry.Totalt == entry.Totalt)
                 {
