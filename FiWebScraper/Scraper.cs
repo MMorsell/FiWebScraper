@@ -86,6 +86,11 @@ namespace FiWebScraper
 
             nextPost = nextPost + 16;
             }
+
+            if (firstDownload == 0)
+            {
+                firstDownload++;
+            }
         }
 
         private List<string> DownloadNewVersion(string page)
