@@ -89,13 +89,13 @@ namespace FiWebScraper
                 double.TryParse(listOfText[9 + nextPost], out double volymParsed);
                 double.TryParse(listOfText[11 + nextPost], out double prisParsed);
 
-                var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], TotalPriceOfBusiness = volymParsed * prisParsed };
+                var sale = new Sale { Publiceringsdatum = publishDateParsed, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
 
                 //checks if record already exists with person and total cost
                 bool recordExist = false;
                 foreach (var record in _sales)
                 {
-                    if (sale.TotalPriceOfBusiness == record.TotalPriceOfBusiness && sale.Namn == record.Namn)
+                    if (sale.Totalt == record.Totalt && sale.Namn == record.Namn)
                     {
                         recordExist = true;
                     }

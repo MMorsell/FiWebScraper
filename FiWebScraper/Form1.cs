@@ -16,6 +16,7 @@ namespace FiWebScraper
         Scraper scraper;
         static int textData = 0;
         public decimal secondsDelay { get; set; } = 5000;
+        public int valueToSendRespond { get; set; } = 300000;
 
         public Form1()
         {
@@ -77,11 +78,6 @@ namespace FiWebScraper
 
         }
 
-        private async void waitForTime()
-        {
-            
-        }
-
         private void TextBox1_TextChanged_1(object sender, EventArgs e)
         {
 
@@ -91,6 +87,48 @@ namespace FiWebScraper
         {
             decimal input = numericUpDown1.Value;
             secondsDelay = 1000 * input;
+        }
+
+        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            UpdateCellColors();
+            
+        }
+
+        private void UpdateCellColors()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                double.TryParse(dataGridView1.Rows[i].Cells[13].Value.ToString(), out double totalt);
+
+                if (totalt > valueToSendRespond)
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
+
+        private void TextBox2_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TextBox2_TextChanged_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NumericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            int.TryParse(numericUpDown2.Value.ToString(), out int input);
+            valueToSendRespond = input;
+            UpdateCellColors();
         }
     }
 }
