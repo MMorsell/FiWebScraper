@@ -23,6 +23,8 @@ namespace FiWebScraper
 
         public bool ReportOnlyPurchases { get; set; } = false;
         public bool SendPushNotice { get; set; } = true;
+        public bool ShowOnlySalesRows { get; set; } = false;
+        public bool HideUHandelsplatsRows { get; set; } = false;
 
         public Form1()
         {
@@ -98,6 +100,12 @@ namespace FiWebScraper
 
         private void ControlAllCheckStates()
         {
+
+            //Display options
+            DisplayOnlySelectedData();
+
+
+            //Notification options below
             //Warn only about purchases
             if (checkBox2.Checked)
             {
@@ -109,39 +117,69 @@ namespace FiWebScraper
             }
 
 
-            //Show only purchases
-            if (checkBox1.Checked)
-            {
-                source.SuspendBinding();
-                ShowOnlySalesColumns();
-                source.ResumeBinding();
-            }
-            else
-            {
-                source.SuspendBinding();
-                RevertShowOnlySalesColumns();
-                source.ResumeBinding();
-            }
-
-            //Show every sale except outside __
-            if (checkBox3.Checked)
-            {
-                source.SuspendBinding();
-                HideUHandelsplatsColumns();
-                source.ResumeBinding();
-            }
-            else
-            {
-                source.SuspendBinding();
-                UnHideUHandelsplatsColumns();
-                source.ResumeBinding();
-            }
-
             UpdateCellColors();
             PushNotice();
+        }
 
-
-
+        private void DisplayOnlySelectedData()
+        {
+            source.SuspendBinding();
+            if (ShowOnlySalesRows)
+            {
+                if (HideUHandelsplatsRows)
+                {
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase) && !dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            dataGridView1.Rows[i].Visible = true;
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            dataGridView1.Rows[i].Visible = true;
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[i].Visible = false;
+                        } 
+                    }
+                }
+            }
+            else
+            {
+                if (HideUHandelsplatsRows)
+                {
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        if (!dataGridView1.Rows[i].Cells[16].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            dataGridView1.Rows[i].Visible = true;
+                        }
+                        else
+                        {
+                            dataGridView1.Rows[i].Visible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    for(int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                            dataGridView1.Rows[i].Visible = true;
+                    }
+                }
+            }
+            source.ResumeBinding();
         }
 
         private void PushNotice()
@@ -205,60 +243,6 @@ namespace FiWebScraper
             }
 
             return result;
-        }
-
-        private void ShowOnlySalesColumns()
-        {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    dataGridView1.Rows[i].Visible = true;
-                }
-                else
-                {
-                    dataGridView1.Rows[i].Visible = false;
-                }
-            }
-        }
-        private void RevertShowOnlySalesColumns()
-        {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                //if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring", StringComparison.CurrentCultureIgnoreCase))
-                //{
-                //    dataGridView1.Rows[i].Visible = true;
-                //}
-                dataGridView1.Rows[i].Visible = true;
-            }
-        }
-
-        private void HideUHandelsplatsColumns()
-        {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    dataGridView1.Rows[i].Visible = false;
-                }
-            }
-        }
-        private void UnHideUHandelsplatsColumns()
-        {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
-            {
-                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (checkBox1.Checked && dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring", StringComparison.CurrentCultureIgnoreCase))
-                    {
-
-                    }
-                    else
-                    {
-                        dataGridView1.Rows[i].Visible = true;
-                    }
-                }
-            }
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -332,15 +316,13 @@ namespace FiWebScraper
         {
             if (checkBox1.Checked)
             {
-                source.SuspendBinding();
-                ShowOnlySalesColumns();
-                source.ResumeBinding();
+                ShowOnlySalesRows = true;
+                DisplayOnlySelectedData();
             }
             else
             {
-                source.SuspendBinding();
-                RevertShowOnlySalesColumns();
-                source.ResumeBinding();
+                ShowOnlySalesRows = false;
+                DisplayOnlySelectedData();
             }
         }
 
@@ -362,15 +344,13 @@ namespace FiWebScraper
         {
             if (checkBox3.Checked)
             {
-                source.SuspendBinding();
-                HideUHandelsplatsColumns();
-                source.ResumeBinding();
+                HideUHandelsplatsRows = true;
+                DisplayOnlySelectedData();
             }
             else
             {
-                source.SuspendBinding();
-                UnHideUHandelsplatsColumns();
-                source.ResumeBinding();
+                HideUHandelsplatsRows = false;
+                DisplayOnlySelectedData();
             }
         }
 
