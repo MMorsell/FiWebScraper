@@ -113,13 +113,13 @@ namespace FiWebScraper
             if (checkBox1.Checked)
             {
                 source.SuspendBinding();
-                HideSaleColumns();
+                ShowOnlySalesColumns();
                 source.ResumeBinding();
             }
             else
             {
                 source.SuspendBinding();
-                UnHideSaleColumns();
+                RevertShowOnlySalesColumns();
                 source.ResumeBinding();
             }
 
@@ -171,7 +171,7 @@ namespace FiWebScraper
 
                         if (ReportOnlyPurchases)
                         {
-                            if (dataGridView1.Rows[i].Cells[6].Value.ToString() == "Förvärv")
+                            if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 notifyIcon.ShowBalloonTip(30000);
                                 ListOfAlertMessagesSent.Add(message);
@@ -207,24 +207,29 @@ namespace FiWebScraper
             return result;
         }
 
-        private void HideSaleColumns()
+        private void ShowOnlySalesColumns()
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
+                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    dataGridView1.Rows[i].Visible = true;
+                }
+                else
                 {
                     dataGridView1.Rows[i].Visible = false;
                 }
             }
         }
-        private void UnHideSaleColumns()
+        private void RevertShowOnlySalesColumns()
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
-                {
-                    dataGridView1.Rows[i].Visible = true;
-                }
+                //if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring", StringComparison.CurrentCultureIgnoreCase))
+                //{
+                //    dataGridView1.Rows[i].Visible = true;
+                //}
+                dataGridView1.Rows[i].Visible = true;
             }
         }
 
@@ -232,7 +237,7 @@ namespace FiWebScraper
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
+                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
                 {
                     dataGridView1.Rows[i].Visible = false;
                 }
@@ -242,9 +247,9 @@ namespace FiWebScraper
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
-                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
+                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (checkBox1.Checked && dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
+                    if (checkBox1.Checked && dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring", StringComparison.CurrentCultureIgnoreCase))
                     {
 
                     }
@@ -328,13 +333,13 @@ namespace FiWebScraper
             if (checkBox1.Checked)
             {
                 source.SuspendBinding();
-                HideSaleColumns();
+                ShowOnlySalesColumns();
                 source.ResumeBinding();
             }
             else
             {
                 source.SuspendBinding();
-                UnHideSaleColumns();
+                RevertShowOnlySalesColumns();
                 source.ResumeBinding();
             }
         }
