@@ -30,28 +30,18 @@ namespace FiWebScraper
             scraper = new Scraper();
             Text = "Insynshandelsavläsare";
             ListOfAlertMessagesSent = new List<string>();
+            SetupDataGrid();
 
         }
 
         private async void Button1_Click(object sender, EventArgs e)
         {
-            textData++;
-            if (textData%2 != 0)
-            {
-                button1.Text = "Pause";
-                Text = "Programmet Körs";
-            }
-            else
-            {
-                Text = "Insynshandelsavläsare";
-                button1.Text = "Start";
-            }
+            CheckTextData();
+
+
             
-            //Settings for the datagrid
-            source = new BindingSource();
-            source.DataSource = scraper.Sales;
-            dataGridView1.DataSource = source;
-            dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
+            
+            
 
 
             //Primary loop
@@ -75,9 +65,33 @@ namespace FiWebScraper
 
         }
 
+        private void SetupDataGrid()
+        {
+            //Settings for the datagrid
+            source = new BindingSource();
+            source.DataSource = scraper.Sales;
+            dataGridView1.DataSource = source;
+            dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
+        }
+
+        private void CheckTextData()
+        {
+            textData++;
+            if (textData % 2 != 0)
+            {
+                button1.Text = "Pause";
+                Text = "Programmet Körs";
+            }
+            else
+            {
+                Text = "Insynshandelsavläsare";
+                button1.Text = "Start";
+            }
+        }
+
         private void ControlAllCheckStates()
         {
-
+            //Warn only about purchases
             if (checkBox2.Checked)
             {
                 ReportOnlyPurchases = true;
@@ -87,6 +101,8 @@ namespace FiWebScraper
                 ReportOnlyPurchases = false;
             }
 
+
+            //Show only purchases
             if (checkBox1.Checked)
             {
                 source.SuspendBinding();
@@ -100,6 +116,7 @@ namespace FiWebScraper
                 source.ResumeBinding();
             }
 
+            //Show every sale except outside __
             if (checkBox3.Checked)
             {
                 source.SuspendBinding();
@@ -112,6 +129,7 @@ namespace FiWebScraper
                 UnHideUHandelsplatsColumns();
                 source.ResumeBinding();
             }
+
             UpdateCellColors();
             PushNotice();
 
@@ -127,7 +145,6 @@ namespace FiWebScraper
 
                 if (totalt > MaxValueBeforeAResponse)
                 {
-                    //Add notification here
                     NotifyIcon notifyIcon = new NotifyIcon();
                     notifyIcon.Visible = true;
                     notifyIcon.BalloonTipTitle = $"Ny Affär av {dataGridView1.Rows[i].Cells[3].Value}";
@@ -216,7 +233,14 @@ namespace FiWebScraper
             {
                 if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
                 {
-                    dataGridView1.Rows[i].Visible = true;
+                    if (checkBox1.Checked && dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
+                    {
+
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i].Visible = true;
+                    }
                 }
             }
         }
@@ -248,9 +272,7 @@ namespace FiWebScraper
         }
 
         private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-         //   UpdateCellColors();
-            
+        {   
         }
 
         private void UpdateCellColors()

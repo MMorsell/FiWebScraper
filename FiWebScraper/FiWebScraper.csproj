@@ -89,8 +89,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Windows.Data" />
-    <Reference Include="Windows.UI" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Form1.cs">
