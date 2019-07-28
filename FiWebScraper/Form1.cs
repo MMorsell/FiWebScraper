@@ -34,8 +34,6 @@ namespace FiWebScraper
 
         private async void Button1_Click(object sender, EventArgs e)
         {
-            try
-            {
                 textData++;
                 if (textData % 2 != 0)
                 {
@@ -65,6 +63,11 @@ namespace FiWebScraper
                     //Updates the data
                     source.ResetBindings(false);
 
+                    if (dataGridView1.Enabled == false)
+                    {
+                        source.ResetBindings(false);
+                    }
+
                     ControlAllCheckStates();
 
                     //Delay until next update
@@ -72,12 +75,14 @@ namespace FiWebScraper
                     await Task.Delay(timeout);
                 }
 
-                ControlAllCheckStates();
-            }
-            catch
-            {
+                if (dataGridView1.Enabled == false)
+                {
+                    ControlAllCheckStates();
+                }
 
-            }
+                ControlAllCheckStates();
+            
+            
 
         }
 
