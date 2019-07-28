@@ -38,12 +38,6 @@ namespace FiWebScraper
         {
             CheckTextData();
 
-
-            
-            
-            
-
-
             //Primary loop
             while (textData%2 != 0)
             {
