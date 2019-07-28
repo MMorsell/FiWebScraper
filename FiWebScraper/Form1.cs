@@ -46,8 +46,6 @@ namespace FiWebScraper
                     //scraper.ScrapeData(@"http://localhost/dashboard/");
 
                     //Updates the data
-                    source.ResetBindings(false);
-
                 if (dataGridView1.Enabled == false)
                     {
                         source.ResetBindings(false);
@@ -55,8 +53,10 @@ namespace FiWebScraper
 
                     ControlAllCheckStates();
 
+                    dataGridView1.ClearSelection();
+                    
+                
                     //Delay until next update
-                dataGridView1.ClearSelection();
                     int.TryParse(SecondsDelay.ToString(), out int timeout);
                     await Task.Delay(timeout);
                 }
