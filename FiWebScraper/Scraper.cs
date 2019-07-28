@@ -183,6 +183,7 @@ namespace FiWebScraper
                         record.Volym = record.Volym+sale.Volym;
                         record.Totalt = record.Totalt+sale.Totalt;
                         result = true;
+                        record.Antal_Affärer++;
                         AddedSales.Add(sale);
                         Console.Read();
                     }
