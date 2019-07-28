@@ -162,7 +162,10 @@ namespace FiWebScraper
             //        listOfText[i] = listOfText[i].Replace(';', ' ');
             //    }
             //}
-
+            for (int i = 0; i < listOfText.Count; i++)
+            {
+                listOfText[i] = System.Net.WebUtility.HtmlDecode(listOfText[i]);
+            }
             return listOfText;
         }
 
