@@ -139,14 +139,18 @@ namespace FiWebScraper
 
                 if (totalt > MaxValueBeforeAResponse)
                 {
+                    //Add numberformat here
+                    string formattedTotal = $"{0:N}";
+                    string msg = string.Format(formattedTotal, totalt);
+                    string message = $"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {totalt} på {dataGridView1.Rows[i].Cells[7].Value}";
                     NotifyIcon notifyIcon = new NotifyIcon();
                     notifyIcon.Visible = true;
                     notifyIcon.BalloonTipTitle = $"Ny Affär av {dataGridView1.Rows[i].Cells[3].Value}";
-                    notifyIcon.BalloonTipText = $"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}";
+                    notifyIcon.BalloonTipText = message;
                     notifyIcon.Icon = SystemIcons.Application;
 
 
-                    bool alreadySentAlert = CheckIfMessageIsAlreadySent($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                    bool alreadySentAlert = CheckIfMessageIsAlreadySent(message);
 
                     if (!alreadySentAlert && SendPushNotice)
                     {
@@ -157,14 +161,14 @@ namespace FiWebScraper
                             if (dataGridView1.Rows[i].Cells[6].Value.ToString() == "Förvärv")
                             {
                                 notifyIcon.ShowBalloonTip(30000);
-                                ListOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                                ListOfAlertMessagesSent.Add(message);
                             }
 
                         }
                         else
                         {
                             notifyIcon.ShowBalloonTip(30000);
-                            ListOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                            ListOfAlertMessagesSent.Add(message);
                         }
 
 
