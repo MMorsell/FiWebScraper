@@ -166,9 +166,9 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Location = new System.Drawing.Point(13, 235);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(119, 17);
+            this.checkBox3.Size = new System.Drawing.Size(110, 17);
             this.checkBox3.TabIndex = 10;
-            this.checkBox3.Text = "Dölj U.Handelsplats";
+            this.checkBox3.Text = "Varna endast köp";
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckStateChanged += new System.EventHandler(this.CheckBox3_CheckStateChanged);
             // 
@@ -177,9 +177,9 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(13, 212);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(110, 17);
+            this.checkBox2.Size = new System.Drawing.Size(119, 17);
             this.checkBox2.TabIndex = 9;
-            this.checkBox2.Text = "Varna endast köp";
+            this.checkBox2.Text = "Dölj U.Handelsplats";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckStateChanged += new System.EventHandler(this.CheckBox2_CheckStateChanged);
             // 

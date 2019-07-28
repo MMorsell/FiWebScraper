@@ -330,20 +330,6 @@ namespace FiWebScraper
         {
             if (checkBox2.Checked)
             {
-                ReportOnlyPurchases = true;
-                PushNotice();
-            }
-            else
-            {
-                ReportOnlyPurchases = true;
-                PushNotice();
-            }
-        }
-
-        private void CheckBox3_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (checkBox3.Checked)
-            {
                 HideUHandelsplatsRows = true;
                 DisplayOnlySelectedData();
             }
@@ -351,6 +337,22 @@ namespace FiWebScraper
             {
                 HideUHandelsplatsRows = false;
                 DisplayOnlySelectedData();
+            }
+        }
+
+        private void CheckBox3_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+            {
+                ReportOnlyPurchases = true;
+                PushNotice();
+                
+            }
+            else
+            {
+                ReportOnlyPurchases = true;
+                PushNotice();
+                
             }
         }
 
