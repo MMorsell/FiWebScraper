@@ -102,7 +102,7 @@ namespace FiWebScraper
 
             var outerDivText = outerDiv.InnerText;
 
-
+            
             List<string> listOfText = outerDivText.Split('\n').ToList();
 
             listOfText.RemoveRange(0, 24);
@@ -150,6 +150,11 @@ namespace FiWebScraper
             //    }
             //}
 
+
+            for (int i = 0; i < listOfText.Count; i++)
+            {
+                listOfText[i] = System.Net.WebUtility.HtmlDecode(listOfText[i]);
+            }
             return listOfText;
         }
 
