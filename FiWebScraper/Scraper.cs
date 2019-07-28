@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -129,6 +129,7 @@ namespace FiWebScraper
                 listOfText.RemoveRange(intPosition - 4, 4);
 
             }
+
             for (int i = 0; i < listOfText.Count; i++)
             {
                 listOfText[i] = System.Net.WebUtility.HtmlDecode(listOfText[i]);

@@ -31,31 +31,41 @@ namespace FiWebScraper
             Text = "Insynshandelsavläsare";
             ListOfAlertMessagesSent = new List<string>();
             SetupDataGrid();
-
         }
 
         private async void Button1_Click(object sender, EventArgs e)
         {
             CheckTextData();
+            
+                //Primary loop
+                while (textData % 2 != 0)
+                {
+                    scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
+                    //scraper.ScrapeData(@"http://localhost/dashboard/");
 
-            //Primary loop
-            while (textData%2 != 0)
-            {
+                    //Updates the data
+                    source.ResetBindings(false);
 
-                scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
-                //scraper.ScrapeData(@"http://localhost/dashboard/");
+                    if (dataGridView1.Enabled == false)
+                    {
+                        source.ResetBindings(false);
+                    }
 
-                //Updates the data
-                source.ResetBindings(false);
+                    ControlAllCheckStates();
+
+                    //Delay until next update
+                    int.TryParse(SecondsDelay.ToString(), out int timeout);
+                    await Task.Delay(timeout);
+                }
+
+                if (dataGridView1.Enabled == false)
+                {
+                    ControlAllCheckStates();
+                }
 
                 ControlAllCheckStates();
-
-                //Delay until next update
-                int.TryParse(SecondsDelay.ToString(), out int timeout);
-                await Task.Delay(timeout);
-            }
-
-            ControlAllCheckStates();
+            
+            
 
         }
 
