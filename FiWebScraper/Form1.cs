@@ -17,9 +17,9 @@ namespace FiWebScraper
         Scraper scraper;
         static int textData = 0;
         BindingSource source;
-        public decimal secondsDelay { get; set; } = 5000;
-        public int maxValueBeforeAResponse { get; set; } = 300000;
-        public List<string> listOfAlertMessagesSent { get; set; }
+        public decimal SecondsDelay { get; set; } = 5000;
+        public int MaxValueBeforeAResponse { get; set; } = 300000;
+        public List<string> ListOfAlertMessagesSent { get; set; }
 
         public bool ReportOnlyPurchases { get; set; } = false;
         public bool SendPushNotice { get; set; } = true;
@@ -29,13 +29,12 @@ namespace FiWebScraper
             InitializeComponent();
             scraper = new Scraper();
             Text = "Insynshandelsavläsare";
-            listOfAlertMessagesSent = new List<string>();
+            ListOfAlertMessagesSent = new List<string>();
 
         }
 
         private async void Button1_Click(object sender, EventArgs e)
         {
-            
             textData++;
             if (textData%2 != 0)
             {
@@ -68,9 +67,11 @@ namespace FiWebScraper
                 ControlAllCheckStates();
 
                 //Delay until next update
-                int.TryParse(secondsDelay.ToString(), out int timeout);
+                int.TryParse(SecondsDelay.ToString(), out int timeout);
                 await Task.Delay(timeout);
             }
+
+            ControlAllCheckStates();
 
         }
 
@@ -123,7 +124,7 @@ namespace FiWebScraper
             {
                 double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
 
-                if (totalt > maxValueBeforeAResponse)
+                if (totalt > MaxValueBeforeAResponse)
                 {
                     //Add notification here
                     NotifyIcon notifyIcon = new NotifyIcon();
@@ -144,14 +145,14 @@ namespace FiWebScraper
                             if (dataGridView1.Rows[i].Cells[6].Value.ToString() == "Förvärv")
                             {
                                 notifyIcon.ShowBalloonTip(30000);
-                                listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                                ListOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
                             }
 
                         }
                         else
                         {
                             notifyIcon.ShowBalloonTip(30000);
-                            listOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
+                            ListOfAlertMessagesSent.Add($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
                         }
 
 
@@ -166,7 +167,7 @@ namespace FiWebScraper
         private bool CheckIfMessageIsAlreadySent(string v)
         {
             bool result = false;
-            foreach (var message in listOfAlertMessagesSent)
+            foreach (var message in ListOfAlertMessagesSent)
             {
                 if (message == v)
                 {
@@ -242,7 +243,7 @@ namespace FiWebScraper
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             decimal input = numericUpDown1.Value;
-            secondsDelay = 1000 * input;
+            SecondsDelay = 1000 * input;
         }
 
         private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -257,7 +258,7 @@ namespace FiWebScraper
             {
                 double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
 
-                if (totalt > maxValueBeforeAResponse)
+                if (totalt > MaxValueBeforeAResponse)
                 {
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                     dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.White;
@@ -283,17 +284,9 @@ namespace FiWebScraper
         private void NumericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             int.TryParse(numericUpDown2.Value.ToString(), out int input);
-            maxValueBeforeAResponse = input;
+            MaxValueBeforeAResponse = input;
             UpdateCellColors();
             PushNotice();
-        }
-
-        private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
         }
 
         private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
