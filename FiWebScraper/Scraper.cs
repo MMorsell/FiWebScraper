@@ -42,7 +42,7 @@ namespace FiWebScraper
             {
                 //Creates a new sale
                     DateTime.TryParse(listOfText[0 + nextPost], out DateTime publishDateParsed);
-                    var timeNow = DateTime.Now.ToString("h:mm:ss");
+                    var timeNow = DateTime.Now.ToString("HH:mm:ss");
                     DateTime.TryParse(listOfText[8 + nextPost], out DateTime transactionDateParsed);
                     double.TryParse(listOfText[9 + nextPost], out double volymParsed);
                     double.TryParse(listOfText[11 + nextPost], out double prisParsed);
