@@ -30,48 +30,54 @@ namespace FiWebScraper
             scraper = new Scraper();
             Text = "Insynshandelsavläsare";
             ListOfAlertMessagesSent = new List<string>();
-
         }
 
         private async void Button1_Click(object sender, EventArgs e)
         {
-            textData++;
-            if (textData%2 != 0)
+            try
             {
-                button1.Text = "Pause";
-                Text = "Programmet Körs";
-            }
-            else
-            {
-                Text = "Insynshandelsavläsare";
-                button1.Text = "Start";
-            }
-            
-            //Settings for the datagrid
-            source = new BindingSource();
-            source.DataSource = scraper.Sales;
-            dataGridView1.DataSource = source;
-            dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
+                textData++;
+                if (textData % 2 != 0)
+                {
+                    button1.Text = "Pause";
+                    Text = "Programmet Körs";
+                }
+                else
+                {
+                    Text = "Insynshandelsavläsare";
+                    button1.Text = "Start";
+                }
+
+                //Settings for the datagrid
+                source = new BindingSource();
+                source.DataSource = scraper.Sales;
+                dataGridView1.DataSource = source;
+                dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
 
 
-            //Primary loop
-            while (textData%2 != 0)
-            {
+                //Primary loop
+                while (textData % 2 != 0)
+                {
 
-                //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
-                scraper.ScrapeData(@"http://localhost/dashboard/");
+                    //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
+                    scraper.ScrapeData(@"http://localhost/dashboard/");
 
-                //Updates the data
-                source.ResetBindings(false);
+                    //Updates the data
+                    source.ResetBindings(false);
+
+                    ControlAllCheckStates();
+
+                    //Delay until next update
+                    int.TryParse(SecondsDelay.ToString(), out int timeout);
+                    await Task.Delay(timeout);
+                }
 
                 ControlAllCheckStates();
-
-                //Delay until next update
-                int.TryParse(SecondsDelay.ToString(), out int timeout);
-                await Task.Delay(timeout);
             }
+            catch
+            {
 
-            ControlAllCheckStates();
+            }
 
         }
 
