@@ -21,6 +21,9 @@ namespace FiWebScraper
         public int maxValueBeforeAResponse { get; set; } = 300000;
         public List<string> listOfAlertMessagesSent { get; set; }
 
+        public bool ReportOnlyPurchases { get; set; } = false;
+        public bool SendPushNotice { get; set; } = true;
+
         public Form1()
         {
             InitializeComponent();
@@ -62,8 +65,7 @@ namespace FiWebScraper
                 //Updates the data
                 source.ResetBindings(false);
 
-                CheckIfNotice();
-                CheckIfHideRows();
+                ControlAllCheckStates();
 
                 //Delay until next update
                 int.TryParse(secondsDelay.ToString(), out int timeout);
@@ -72,25 +74,50 @@ namespace FiWebScraper
 
         }
 
-        private void CheckIfHideRows()
+        private void ControlAllCheckStates()
         {
-            if (checkedListBox1.GetItemCheckState(0) == CheckState.Checked)
+            if (checkBox1.Checked)
             {
                 source.SuspendBinding();
                 HideSaleColumns();
                 source.ResumeBinding();
             }
+            else
+            {
+                source.SuspendBinding();
+                UnHideSaleColumns();
+                source.ResumeBinding();
+            }
 
+            if (checkBox2.Checked)
+            {
+                ReportOnlyPurchases = true;
+            }
+            else
+            {
+                ReportOnlyPurchases = false;
+            }
 
-            if (checkedListBox1.GetItemCheckState(2) == CheckState.Checked)
+            if (checkBox3.Checked)
             {
                 source.SuspendBinding();
                 HideUHandelsplatsColumns();
                 source.ResumeBinding();
             }
+            else
+            {
+                source.SuspendBinding();
+                UnHideUHandelsplatsColumns();
+                source.ResumeBinding();
+            }
+            UpdateCellColors();
+            PushNotice();
+
+
+
         }
 
-        private void CheckIfNotice()
+        private void PushNotice()
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
@@ -108,10 +135,11 @@ namespace FiWebScraper
 
                     bool alreadySentAlert = CheckIfMessageIsAlreadySent($"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {dataGridView1.Rows[i].Cells[14].Value} på {dataGridView1.Rows[i].Cells[7].Value}");
 
-                    if (!alreadySentAlert && checkedListBox1.GetItemCheckState(4) != CheckState.Checked)
+                    if (!alreadySentAlert && SendPushNotice)
                     {
 
-                        if (checkedListBox1.GetItemCheckState(1) == CheckState.Checked)
+
+                        if (ReportOnlyPurchases)
                         {
                             if (dataGridView1.Rows[i].Cells[6].Value.ToString() == "Förvärv")
                             {
@@ -133,7 +161,6 @@ namespace FiWebScraper
                     notifyIcon.Dispose();
                 }
             }
-
         }
 
         private bool CheckIfMessageIsAlreadySent(string v)
@@ -160,6 +187,16 @@ namespace FiWebScraper
                 }
             }
         }
+        private void UnHideSaleColumns()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Avyttring"))
+                {
+                    dataGridView1.Rows[i].Visible = true;
+                }
+            }
+        }
 
         private void HideUHandelsplatsColumns()
         {
@@ -168,6 +205,16 @@ namespace FiWebScraper
                 if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
                 {
                     dataGridView1.Rows[i].Visible = false;
+                }
+            }
+        }
+        private void UnHideUHandelsplatsColumns()
+        {
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats"))
+                {
+                    dataGridView1.Rows[i].Visible = true;
                 }
             }
         }
@@ -200,7 +247,7 @@ namespace FiWebScraper
 
         private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            UpdateCellColors();
+         //   UpdateCellColors();
             
         }
 
@@ -238,7 +285,7 @@ namespace FiWebScraper
             int.TryParse(numericUpDown2.Value.ToString(), out int input);
             maxValueBeforeAResponse = input;
             UpdateCellColors();
-            CheckIfNotice();
+            PushNotice();
         }
 
         private void CheckedListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,6 +294,66 @@ namespace FiWebScraper
 
         private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+        }
+
+        private void CheckBox1_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                source.SuspendBinding();
+                HideSaleColumns();
+                source.ResumeBinding();
+            }
+            else
+            {
+                source.SuspendBinding();
+                UnHideSaleColumns();
+                source.ResumeBinding();
+            }
+        }
+
+        private void CheckBox2_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                ReportOnlyPurchases = true;
+                PushNotice();
+            }
+            else
+            {
+                ReportOnlyPurchases = true;
+                PushNotice();
+            }
+        }
+
+        private void CheckBox3_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+            {
+                source.SuspendBinding();
+                HideUHandelsplatsColumns();
+                source.ResumeBinding();
+            }
+            else
+            {
+                source.SuspendBinding();
+                UnHideUHandelsplatsColumns();
+                source.ResumeBinding();
+            }
+        }
+
+        private void CheckBox4_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked)
+            {
+                SendPushNotice = false;
+            }
+            else
+            {
+                SendPushNotice = true;
+            }
+
+            PushNotice();
         }
     }
 }
