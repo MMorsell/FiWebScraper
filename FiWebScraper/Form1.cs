@@ -46,7 +46,7 @@ namespace FiWebScraper
                     //Updates the data
                     source.ResetBindings(false);
 
-                    if (dataGridView1.Enabled == false)
+                if (dataGridView1.Enabled == false)
                     {
                         source.ResetBindings(false);
                     }
@@ -54,6 +54,7 @@ namespace FiWebScraper
                     ControlAllCheckStates();
 
                     //Delay until next update
+                dataGridView1.ClearSelection();
                     int.TryParse(SecondsDelay.ToString(), out int timeout);
                     await Task.Delay(timeout);
                 }
@@ -62,8 +63,6 @@ namespace FiWebScraper
                 {
                     ControlAllCheckStates();
                 }
-
-                ControlAllCheckStates();
             
             
 
@@ -85,11 +84,15 @@ namespace FiWebScraper
             {
                 button1.Text = "Pause";
                 Text = "Programmet Körs";
+                dataGridView1.Enabled = false;
+                dataGridView1.ClearSelection();
             }
             else
             {
                 Text = "Insynshandelsavläsare";
                 button1.Text = "Start";
+                dataGridView1.Enabled = true;
+                dataGridView1.ClearSelection();
             }
         }
 
