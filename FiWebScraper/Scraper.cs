@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Web;
+using System.Net;
 
 namespace FiWebScraper
 {
@@ -96,6 +97,9 @@ namespace FiWebScraper
         private List<string> DownloadNewVersion(string page)
         {
             var webInterface = new HtmlWeb();
+            webInterface.UserAgent = "sv-se";
+            webInterface.OverrideEncoding = Encoding.UTF8;
+
             var htmlDocument = webInterface.Load(page);
 
             var outerDiv = htmlDocument.DocumentNode.SelectSingleNode("//*[@class = 'table table-bordered table-hover table-striped zero-margin-top']");
