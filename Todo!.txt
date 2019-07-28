@@ -1,0 +1,13 @@
+Current bugs
+
+Major
+
+
+Medium
+
+
+Minor
+Adding enum
+format display ammount in notice
+format type of sale in notice
+add "this person bought again for 100 total of a 10000
