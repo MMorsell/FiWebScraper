@@ -49,13 +49,6 @@ namespace FiWebScraper
 
                     var sale = new Sale { Publiceringsdatum = publishDateParsed, Tid = timeNow, Utgivare = listOfText[1 + nextPost], Namn = listOfText[2 + nextPost], Befattning = listOfText[3 + nextPost], Närstående = listOfText[4 + nextPost], Karaktär = listOfText[5 + nextPost], Instrumentnamn = listOfText[6 + nextPost], ISIN = listOfText[7 + nextPost], Transaktionsdatum = transactionDateParsed, Volym = volymParsed, Volymsenhet = listOfText[10 + nextPost], Pris = prisParsed, Valuta = listOfText[12 + nextPost], Handelsplats = listOfText[13 + nextPost], Status = listOfText[14 + nextPost], Detaljer = listOfText[15 + nextPost], Totalt = volymParsed * prisParsed };
 
-                
-
-
-
-
-
-
 
                 //checks if record already exists with person and total cost
                 bool recordExistInSaleList = EntryAlreadyExistsInSaleList(sale);
@@ -100,9 +93,6 @@ namespace FiWebScraper
         private List<string> DownloadNewVersion(string page)
         {
             var webInterface = new HtmlWeb();
-            webInterface.UserAgent = "sv-se";
-            //webInterface.OverrideEncoding = Encoding.UTF8;
-            webInterface.AutoDetectEncoding = true;
             var htmlDocument = webInterface.Load(page);
 
 
@@ -110,12 +100,6 @@ namespace FiWebScraper
 
             var outerDivText = outerDiv.InnerText;
 
-
-            WebClient client = new WebClient();
-            var data = client.DownloadData(page);
-            var html = Encoding.UTF8.GetString(data);
-
-            
             List<string> listOfText = outerDivText.Split('\n').ToList();
 
             listOfText.RemoveRange(0, 24);
@@ -145,23 +129,6 @@ namespace FiWebScraper
                 listOfText.RemoveRange(intPosition - 4, 4);
 
             }
-            //NOT DONE NEED TO FIX SWEDISH CHARSET
-            //NEED TO FIX FIRST 10 ITEMS TO BE ADDED AS USUAL; NOT INSERTED
-            //for (int i = 0; i < listOfText.Count; i++)
-            //{
-
-            //    if (listOfText[i].Contains("&#246;"))
-            //    {
-            //        listOfText[i] = listOfText[i].Replace('"', ' ');
-            //        listOfText[i] = listOfText[i].Replace('&', ' ');
-            //        listOfText[i] = listOfText[i].Replace('#', ' ');
-            //        listOfText[i] = listOfText[i].Replace('2', ' ');
-            //        listOfText[i] = listOfText[i].Replace('4', ' ');
-            //        listOfText[i] = listOfText[i].Replace('6', ' ');
-            //        string result = listOfText[i].Trim();
-            //        listOfText[i] = listOfText[i].Replace(';', ' ');
-            //    }
-            //}
             for (int i = 0; i < listOfText.Count; i++)
             {
                 listOfText[i] = System.Net.WebUtility.HtmlDecode(listOfText[i]);
