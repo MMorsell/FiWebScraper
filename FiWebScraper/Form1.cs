@@ -77,6 +77,16 @@ namespace FiWebScraper
 
         private void ControlAllCheckStates()
         {
+
+            if (checkBox2.Checked)
+            {
+                ReportOnlyPurchases = true;
+            }
+            else
+            {
+                ReportOnlyPurchases = false;
+            }
+
             if (checkBox1.Checked)
             {
                 source.SuspendBinding();
@@ -88,15 +98,6 @@ namespace FiWebScraper
                 source.SuspendBinding();
                 UnHideSaleColumns();
                 source.ResumeBinding();
-            }
-
-            if (checkBox2.Checked)
-            {
-                ReportOnlyPurchases = true;
-            }
-            else
-            {
-                ReportOnlyPurchases = false;
             }
 
             if (checkBox3.Checked)
