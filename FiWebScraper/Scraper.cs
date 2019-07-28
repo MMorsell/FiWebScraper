@@ -98,15 +98,21 @@ namespace FiWebScraper
         {
             var webInterface = new HtmlWeb();
             webInterface.UserAgent = "sv-se";
-            webInterface.OverrideEncoding = Encoding.UTF8;
-
+            //webInterface.OverrideEncoding = Encoding.UTF8;
+            webInterface.AutoDetectEncoding = true;
             var htmlDocument = webInterface.Load(page);
+
 
             var outerDiv = htmlDocument.DocumentNode.SelectSingleNode("//*[@class = 'table table-bordered table-hover table-striped zero-margin-top']");
 
             var outerDivText = outerDiv.InnerText;
 
 
+            WebClient client = new WebClient();
+            var data = client.DownloadData(page);
+            var html = Encoding.UTF8.GetString(data);
+
+            
             List<string> listOfText = outerDivText.Split('\n').ToList();
 
             listOfText.RemoveRange(0, 24);
