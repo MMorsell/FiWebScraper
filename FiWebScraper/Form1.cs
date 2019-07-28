@@ -73,8 +73,10 @@ namespace FiWebScraper
         private void SetupDataGrid()
         {
             //Settings for the datagrid
-            source = new BindingSource();
-            source.DataSource = scraper.Sales;
+            source = new BindingSource
+            {
+                DataSource = scraper.Sales
+            };
             dataGridView1.DataSource = source;
             dataGridView1.Columns[14].DefaultCellStyle.Format = $"{0:N}";
         }
@@ -130,7 +132,7 @@ namespace FiWebScraper
                 {
                     for (int i = 0; i < dataGridView1.Rows.Count; i++)
                     {
-                        if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase) && !dataGridView1.Rows[i].Cells[15].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
+                        if (dataGridView1.Rows[i].Cells[6].Value.ToString().Equals("Förvärv", StringComparison.CurrentCultureIgnoreCase) && !dataGridView1.Rows[i].Cells[16].Value.ToString().Equals("Utanför handelsplats", StringComparison.CurrentCultureIgnoreCase))
                         {
                             dataGridView1.Rows[i].Visible = true;
                         }
@@ -191,14 +193,16 @@ namespace FiWebScraper
                 if (totalt > MaxValueBeforeAResponse)
                 {
                     //Add numberformat here
-                    string formattedTotal = $"{0:N}";
-                    string msg = string.Format(formattedTotal, totalt);
+                    //string formattedTotal = $"{0:N}";
+                    //string msg = string.Format(formattedTotal, totalt);
                     string message = $"{dataGridView1.Rows[i].Cells[3].Value} har {dataGridView1.Rows[i].Cells[6].Value} till ett värde av {totalt} på {dataGridView1.Rows[i].Cells[7].Value}";
-                    NotifyIcon notifyIcon = new NotifyIcon();
-                    notifyIcon.Visible = true;
-                    notifyIcon.BalloonTipTitle = $"Ny Affär av {dataGridView1.Rows[i].Cells[3].Value}";
-                    notifyIcon.BalloonTipText = message;
-                    notifyIcon.Icon = SystemIcons.Application;
+                    NotifyIcon notifyIcon = new NotifyIcon
+                    {
+                        Visible = true,
+                        BalloonTipTitle = $"Ny Affär av {dataGridView1.Rows[i].Cells[3].Value}",
+                        BalloonTipText = message,
+                        Icon = SystemIcons.Application
+                    };
 
 
                     bool alreadySentAlert = CheckIfMessageIsAlreadySent(message);
