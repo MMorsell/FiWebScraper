@@ -44,31 +44,32 @@ namespace FiWebScraper
                 //Primary loop
                 while (textData % 2 != 0)
                 {
-                try
-                {
-                    //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
-                    scraper.ScrapeData(@"http://192.168.1.35/dashboard/");
+                    //tries to download the new version
+                    try
+                    {
+                        //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
+                        scraper.ScrapeData(@"http://192.168.1.35/dashboard/");
 
-                }
-                catch
-                {
-                    if (reportErrorMessagesNumber != 5)
-                    {
-                        reportErrorMessages.AppendLine($"Misslyckad uppdatering {DateTime.Now.ToString("HH:mm:ss")}");
-                        textBox3.Text = reportErrorMessages.ToString();
-                        reportErrorMessagesNumber++;
                     }
-                    else
+                    catch
                     {
-                        reportErrorMessages.Clear();
-                        reportErrorMessagesNumber = 0;
+                        if (reportErrorMessagesNumber != 5)
+                        {
+                            reportErrorMessages.AppendLine($"Misslyckad uppdatering {DateTime.Now.ToString("HH:mm:ss")}");
+                            textBox3.Text = reportErrorMessages.ToString();
+                            reportErrorMessagesNumber++;
+                        }
+                        else
+                        {
+                            reportErrorMessages.Clear();
+                            reportErrorMessagesNumber = 0;
+                        }
                     }
-                }
                     //Updates the data
-                if (dataGridView1.Enabled == true)
-                    {
-                        source.ResetBindings(false);
-                    }
+                    if (dataGridView1.Enabled == true)
+                        {
+                            source.ResetBindings(false);
+                        }
 
                     ControlAllCheckStates();
 
