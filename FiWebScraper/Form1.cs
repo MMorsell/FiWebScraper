@@ -250,34 +250,10 @@ namespace FiWebScraper
             return result;
         }
 
-        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void TextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextBox1_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             decimal input = numericUpDown1.Value;
             SecondsDelay = 1000 * input;
-        }
-
-        private void DataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {   
         }
 
         private void UpdateCellColors()
@@ -310,16 +286,6 @@ namespace FiWebScraper
                 }
             }
             source.ResumeBinding();
-        }
-
-        private void TextBox2_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TextBox2_TextChanged_2(object sender, EventArgs e)
-        {
-
         }
 
         private void NumericUpDown2_ValueChanged(object sender, EventArgs e)
@@ -386,16 +352,6 @@ namespace FiWebScraper
             PushNotice();
         }
 
-        private void CheckBox5_CheckStateChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CheckBox5_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void CheckBox5_CheckStateChanged_1(object sender, EventArgs e)
         {
             if (checkBox5.Checked)
@@ -414,5 +370,7 @@ namespace FiWebScraper
         {
             ControlAllCheckStates();
         }
+
+
     }
 }

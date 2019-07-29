@@ -104,8 +104,6 @@
             this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.Size = new System.Drawing.Size(675, 450);
             this.dataGridView1.TabIndex = 1;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
-            this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView1_CellFormatting);
             this.dataGridView1.Click += new System.EventHandler(this.DataGridView1_Click);
             // 
             // numericUpDown1
@@ -132,7 +130,6 @@
             this.textBox1.Size = new System.Drawing.Size(80, 13);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "Delay i sekunder";
-            this.textBox1.TextChanged += new System.EventHandler(this.TextBox1_TextChanged_1);
             // 
             // panel1
             // 
@@ -232,7 +229,6 @@
             this.textBox2.TabIndex = 5;
             this.textBox2.Text = "Varnar vid värde över";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox2.TextChanged += new System.EventHandler(this.TextBox2_TextChanged_2);
             // 
             // notifyIcon1
             // 
@@ -248,7 +244,6 @@
             this.checkBox5.TabIndex = 12;
             this.checkBox5.Text = "Inaktivera röd färg";
             this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.CheckBox5_CheckedChanged);
             this.checkBox5.CheckStateChanged += new System.EventHandler(this.CheckBox5_CheckStateChanged_1);
             // 
             // Form1
