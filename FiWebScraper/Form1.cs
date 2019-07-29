@@ -58,6 +58,9 @@ namespace FiWebScraper
                             reportErrorMessages.AppendLine($"Misslyckad uppdatering {DateTime.Now.ToString("HH:mm:ss")}");
                             textBox3.Text = reportErrorMessages.ToString();
                             reportErrorMessagesNumber++;
+
+                            int.TryParse(SecondsDelay.ToString(), out int timeout2);
+                            await Task.Delay(timeout2);
                         }
                         else
                         {
@@ -66,7 +69,7 @@ namespace FiWebScraper
                         }
                     }
                     //Updates the data
-                    if (dataGridView1.Enabled == true)
+                    if (dataGridView1.Enabled == false)
                         {
                             source.ResetBindings(false);
                         }
@@ -81,10 +84,11 @@ namespace FiWebScraper
                     await Task.Delay(timeout);
                 }
 
-                if (dataGridView1.Enabled == true)
+                if (dataGridView1.Enabled == false)
                 {
                     ControlAllCheckStates();
                 }
+
             
             
 
@@ -108,9 +112,15 @@ namespace FiWebScraper
             {
                 button1.Text = "Pause";
                 Text = "Programmet Körs";
-                //dataGridView1.Enabled = false;
-                dataGridView1.Enabled = true;
+                dataGridView1.Enabled = false;
+                //dataGridView1.Enabled = true;
                 dataGridView1.ClearSelection();
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    dataGridView1.Columns[i].Frozen = false;
+                }
+
+                
             }
             else
             {
@@ -118,6 +128,10 @@ namespace FiWebScraper
                 button1.Text = "Start";
                 dataGridView1.Enabled = true;
                 dataGridView1.ClearSelection();
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    dataGridView1.Columns[i].Frozen = false;
+                }
             }
         }
 
