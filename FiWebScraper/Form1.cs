@@ -25,6 +25,7 @@ namespace FiWebScraper
         public bool SendPushNotice { get; set; } = true;
         public bool ShowOnlySalesRows { get; set; } = false;
         public bool HideUHandelsplatsRows { get; set; } = false;
+        public bool DisableColor { get; set; } = false;
 
         public Form1()
         {
@@ -281,21 +282,34 @@ namespace FiWebScraper
 
         private void UpdateCellColors()
         {
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            source.SuspendBinding();
+            if (!DisableColor)
             {
-                double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
-
-                if (totalt > MaxValueBeforeAResponse)
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-                    dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
-                    dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.White;
+                    double.TryParse(dataGridView1.Rows[i].Cells[14].Value.ToString(), out double totalt);
+
+                    if (totalt > MaxValueBeforeAResponse)
+                    {
+                        dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                        dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else
+                    {
+                        dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
+                        dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
+                    }
                 }
-                else
+            }
+            else
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.White;
                     dataGridView1.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
+            source.ResumeBinding();
         }
 
         private void TextBox2_TextChanged_1(object sender, EventArgs e)
@@ -321,13 +335,12 @@ namespace FiWebScraper
             if (checkBox1.Checked)
             {
                 ShowOnlySalesRows = true;
-                DisplayOnlySelectedData();
             }
             else
             {
                 ShowOnlySalesRows = false;
-                DisplayOnlySelectedData();
             }
+            DisplayOnlySelectedData();
         }
 
         private void CheckBox2_CheckStateChanged(object sender, EventArgs e)
@@ -335,13 +348,12 @@ namespace FiWebScraper
             if (checkBox2.Checked)
             {
                 HideUHandelsplatsRows = true;
-                DisplayOnlySelectedData();
             }
             else
             {
                 HideUHandelsplatsRows = false;
-                DisplayOnlySelectedData();
             }
+            DisplayOnlySelectedData();
         }
 
         private void CheckBox3_CheckStateChanged(object sender, EventArgs e)
@@ -349,15 +361,15 @@ namespace FiWebScraper
             if (checkBox3.Checked)
             {
                 ReportOnlyPurchases = true;
-                PushNotice();
                 
             }
             else
             {
                 ReportOnlyPurchases = true;
-                PushNotice();
                 
             }
+
+            PushNotice();
         }
 
         private void CheckBox4_CheckStateChanged(object sender, EventArgs e)
@@ -372,6 +384,35 @@ namespace FiWebScraper
             }
 
             PushNotice();
+        }
+
+        private void CheckBox5_CheckStateChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBox5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CheckBox5_CheckStateChanged_1(object sender, EventArgs e)
+        {
+            if (checkBox5.Checked)
+            {
+                DisableColor = true;
+            }
+            else
+            {
+                DisableColor = false;
+            }
+
+            ControlAllCheckStates();
+        }
+
+        private void DataGridView1_Click(object sender, EventArgs e)
+        {
+            ControlAllCheckStates();
         }
     }
 }

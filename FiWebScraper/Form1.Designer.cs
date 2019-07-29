@@ -45,6 +45,7 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -105,6 +106,7 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             this.dataGridView1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DataGridView1_CellFormatting);
+            this.dataGridView1.Click += new System.EventHandler(this.DataGridView1_Click);
             // 
             // numericUpDown1
             // 
@@ -134,6 +136,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkBox5);
             this.panel1.Controls.Add(this.checkBox4);
             this.panel1.Controls.Add(this.checkBox3);
             this.panel1.Controls.Add(this.checkBox2);
@@ -236,6 +239,18 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(12, 281);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(112, 17);
+            this.checkBox5.TabIndex = 12;
+            this.checkBox5.Text = "Inaktivera röd färg";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.CheckBox5_CheckedChanged);
+            this.checkBox5.CheckStateChanged += new System.EventHandler(this.CheckBox5_CheckStateChanged_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,6 +285,7 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox5;
     }
 }
 
