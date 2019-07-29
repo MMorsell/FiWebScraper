@@ -26,7 +26,8 @@ namespace FiWebScraper
         public bool ShowOnlySalesRows { get; set; } = false;
         public bool HideUHandelsplatsRows { get; set; } = false;
         public bool DisableColor { get; set; } = false;
-
+        StringBuilder reportErrorMessages = new StringBuilder();
+        public int reportErrorMessagesNumber { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -43,11 +44,28 @@ namespace FiWebScraper
                 //Primary loop
                 while (textData % 2 != 0)
                 {
+                try
+                {
                     //scraper.ScrapeData(@"https://marknadssok.fi.se/publiceringsklient");
-                    scraper.ScrapeData(@"http://localhost/dashboard/");
+                    scraper.ScrapeData(@"http://192.168.1.35/dashboard/");
 
+                }
+                catch
+                {
+                    if (reportErrorMessagesNumber != 5)
+                    {
+                        reportErrorMessages.AppendLine($"Misslyckad uppdatering {DateTime.Now.ToString("HH:mm:ss")}");
+                        textBox3.Text = reportErrorMessages.ToString();
+                        reportErrorMessagesNumber++;
+                    }
+                    else
+                    {
+                        reportErrorMessages.Clear();
+                        reportErrorMessagesNumber = 0;
+                    }
+                }
                     //Updates the data
-                if (dataGridView1.Enabled == false)
+                if (dataGridView1.Enabled == true)
                     {
                         source.ResetBindings(false);
                     }
@@ -62,7 +80,7 @@ namespace FiWebScraper
                     await Task.Delay(timeout);
                 }
 
-                if (dataGridView1.Enabled == false)
+                if (dataGridView1.Enabled == true)
                 {
                     ControlAllCheckStates();
                 }
@@ -89,7 +107,8 @@ namespace FiWebScraper
             {
                 button1.Text = "Pause";
                 Text = "Programmet Körs";
-                dataGridView1.Enabled = false;
+                //dataGridView1.Enabled = false;
+                dataGridView1.Enabled = true;
                 dataGridView1.ClearSelection();
             }
             else

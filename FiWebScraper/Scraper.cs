@@ -93,14 +93,19 @@ namespace FiWebScraper
         private List<string> DownloadNewVersion(string page)
         {
             var webInterface = new HtmlWeb();
-            var htmlDocument = webInterface.Load(page);
+            List<string> listOfText = new List<string>();
+            try
+            {
+                var htmlDocument = webInterface.Load(page);
+
+            
 
 
             var outerDiv = htmlDocument.DocumentNode.SelectSingleNode("//*[@class = 'table table-bordered table-hover table-striped zero-margin-top']");
 
             var outerDivText = outerDiv.InnerText;
 
-            List<string> listOfText = outerDivText.Split('\n').ToList();
+            listOfText = outerDivText.Split('\n').ToList();
 
             listOfText.RemoveRange(0, 24);
             listOfText.RemoveRange(listOfText.Count - 1, 1);
@@ -133,6 +138,12 @@ namespace FiWebScraper
             for (int i = 0; i < listOfText.Count; i++)
             {
                 listOfText[i] = System.Net.WebUtility.HtmlDecode(listOfText[i]);
+            }
+
+            }
+            catch
+            {
+
             }
             return listOfText;
         }

@@ -38,6 +38,7 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -45,7 +46,7 @@
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -133,6 +134,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.checkBox5);
             this.panel1.Controls.Add(this.checkBox4);
             this.panel1.Controls.Add(this.checkBox3);
@@ -149,6 +151,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(129, 450);
             this.panel1.TabIndex = 4;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(12, 281);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(112, 17);
+            this.checkBox5.TabIndex = 12;
+            this.checkBox5.Text = "Inaktivera röd färg";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckStateChanged += new System.EventHandler(this.CheckBox5_CheckStateChanged_1);
             // 
             // checkBox4
             // 
@@ -235,16 +248,14 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             // 
-            // checkBox5
+            // textBox3
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(12, 281);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(112, 17);
-            this.checkBox5.TabIndex = 12;
-            this.checkBox5.Text = "Inaktivera röd färg";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckStateChanged += new System.EventHandler(this.CheckBox5_CheckStateChanged_1);
+            this.textBox3.Location = new System.Drawing.Point(0, 304);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(126, 146);
+            this.textBox3.TabIndex = 13;
             // 
             // Form1
             // 
@@ -281,6 +292,7 @@
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }
 
